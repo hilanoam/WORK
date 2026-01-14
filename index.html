@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>מחשבון שכר</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="card">
+    <h1>מחשבון שכר</h1>
+
+    <label>גיל
+      <input id="age" type="number" min="0" placeholder="לדוגמה 28">
+    </label>
+
+    <label>שכר קודם (₪)
+      <input id="prev" type="number" min="0" placeholder="לדוגמה 12000">
+    </label>
+
+    <label>השכלה
+      <select id="edu">
+        <option value="none">ללא</option>
+        <option value="ba">תואר ראשון</option>
+        <option value="ma">תואר שני</option>
+        <option value="phd">דוקטורט</option>
+      </select>
+    </label>
+
+    <button id="calc">חשב</button>
+
+    <p id="out" class="out"></p>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
