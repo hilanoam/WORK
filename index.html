@@ -8,30 +8,39 @@
 </head>
 <body>
   <main class="card">
-    <h1>מחשבון שכר</h1>
+  <h1>מחשבון שכר (ניסוי)</h1>
 
-    <label>גיל
-      <input id="age" type="number" min="0" placeholder="לדוגמה 28">
-    </label>
+  <label>קבוצה
+    <select id="group">
+      <option value="5">5</option>
+    </select>
+  </label>
 
-    <label>שכר קודם (₪)
-      <input id="prev" type="number" min="0" placeholder="לדוגמה 12000">
-    </label>
+  <label>ותק
+    <select id="seniority">
+      <option value="0">0</option>
+      <option value="3">3</option>
+    </select>
+  </label>
 
-    <label>השכלה
-      <select id="edu">
-        <option value="none">ללא</option>
-        <option value="ba">תואר ראשון</option>
-        <option value="ma">תואר שני</option>
-        <option value="phd">דוקטורט</option>
-      </select>
-    </label>
+  <label>פעילות
+    <select id="activity"></select>
+  </label>
 
-    <button id="calc">חשב</button>
+  <label>דירוג
+    <select id="rating"></select>
+  </label>
 
-    <p id="out" class="out"></p>
-  </main>
+  <label>גמול א'
+    <select id="gemulA"></select>
+  </label>
 
-  <script src="app.js"></script>
+  <button id="calc" disabled>חשב</button>
+
+  <p id="out" class="out"></p>
+</main>
+
+<script src="app.js"></script>
+
 </body>
 </html>
