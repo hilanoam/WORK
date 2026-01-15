@@ -133,50 +133,63 @@ function showWarning(msg) {
 }
 
 function renderResults(beforeRow, afterRow, appointRow) {
-  const beforeRank = normalize(beforeRow?.["דרגה"]);
-  const afterRank = normalize(afterRow?.["דרגה"]);
-  const officerRank = appointRow ? normalize(appointRow["דרגה"]) : "";
-
   const beforeSalary = Number(beforeRow["שכר"]);
   const afterSalary = Number(afterRow["שכר"]);
-  const diff = afterSalary - beforeSalary;
+  const delta1 = afterSalary - beforeSalary;
 
-  const diffClass = diff < 0 ? "negative" : "positive";
-  const diffSign = diff < 0 ? "" : "+";
+  const hasApp = !!appointRow;
+  const appSalary = hasApp ? Number(appointRow["שכר"]) : null;
+  const delta2 = hasApp ? (appSalary - afterSalary) : null;
 
-  const pills = [
-    `<span class="badge"><i class="fa-solid fa-arrow-right"></i> לפני: ${beforeRank || "-"}</span>`,
-    `<span class="badge"><i class="fa-solid fa-graduation-cap"></i> אחרי קק״ק: ${afterRank || "-"}</span>`,
-    appointRow ? `<span class="badge"><i class="fa-solid fa-id-badge"></i> ${normalize(appointRow["שלב"])}: ${officerRank || "-"}</span>` : "",
-  ].filter(Boolean).join(" ");
+  const fmt = (n) => moneyILS(n).replace("₪", "").trim(); // להציג כמו אצלך בלי סימן ₪ אם בא לך
+
+  const opClass1 = delta1 < 0 ? "negative" : "positive";
+  const sign1 = delta1 < 0 ? "-" : "+";
+
+  const op2 = hasApp ? (delta2 < 0 ? "negative" : "positive") : "";
+  const sign2 = hasApp ? (delta2 < 0 ? "-" : "+") : "";
 
   els.results.innerHTML = `
-    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">${pills}</div>
+    <div class="calc">
+      <div class="line">
+        <div class="label">לפני קק״ק</div>
+        <div class="val">₪ ${fmt(beforeSalary)}</div>
+      </div>
 
-    <div class="kpi">
-      <div class="box">
-        <div class="muted">שכר לפני קק״ק</div>
-        <div class="big">${moneyILS(beforeSalary)}</div>
+      <div class="op ${opClass1}">
+        <div class="sign">${sign1}</div>
+        <div>₪ ${fmt(Math.abs(delta1))}</div>
       </div>
-      <div class="box">
-        <div class="muted">שכר אחרי קק״ק</div>
-        <div class="big">${moneyILS(afterSalary)}</div>
-      </div>
-      <div class="box">
-        <div class="muted">${appointRow ? `שכר ${normalize(appointRow["שלב"])}` : "מינוי"}</div>
-        <div class="big">${appointRow ? moneyILS(appointRow["שכר"]) : "-"}</div>
-      </div>
-    </div>
 
-    <div class="delta ${diffClass}">
-      <div>
-        <div class="muted">הפרש (אחרי - לפני)</div>
-        <div class="value">${diffSign}${moneyILS(diff)}</div>
+      <div class="line">
+        <div class="label">אחרי קק״ק</div>
+        <div class="val">₪ ${fmt(afterSalary)}</div>
       </div>
-      <div class="chip"><i class="fa-solid fa-chart-line"></i> חישוב אוטומטי</div>
+
+      ${
+        hasApp
+          ? `
+          <div class="op ${op2}">
+            <div class="sign">${sign2}</div>
+            <div>₪ ${fmt(Math.abs(delta2))}</div>
+          </div>
+
+          <div class="total">
+            <div class="label">${normalize(appointRow["שלב"])}</div>
+            <div class="val">₪ ${fmt(appSalary)}</div>
+          </div>
+        `
+          : `
+          <div class="total">
+            <div class="label">תוצאה</div>
+            <div class="val">₪ ${fmt(afterSalary)}</div>
+          </div>
+        `
+      }
     </div>
   `;
 }
+
 
 function refreshOfficerRatings() {
   const ap = els.appointment.value;
