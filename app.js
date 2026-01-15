@@ -15,6 +15,10 @@ const els = {
   population: document.getElementById("population"),
   operationalSeg: document.getElementById("operationalSeg"),
   resetBtn: document.getElementById("resetBtn"),
+
+  profession: document.getElementById("profession"),
+  incentiveGroup: document.getElementById("incentiveGroup"),
+
 };
 
 let DATA = [];
@@ -88,18 +92,31 @@ function renderActivityCards(values) {
 }
 
 function filterBase() {
-  const a = normalize(els.activity.value);
+  const a  = normalize(els.activity.value);
   const rb = normalize(els.rankBefore.value);
-  const s = normalize(els.seniority.value);
+  const s  = normalize(els.seniority.value);
   const db = normalize(els.ratingBefore.value);
 
-  return DATA.filter((r) => (
-    normalize(r["רמת פעילות"]) === a &&
-    normalize(r["דרגה לפני"]) === rb &&
-    normalize(r["וותק (שנים)"]) === s &&
-    normalize(r["דירוג_לפני"]) === db
-  ));
+  const prof = normalize(els.profession?.value);
+  const inc  = normalize(els.incentiveGroup?.value);
+
+  return DATA.filter((r) => {
+    const okBasic =
+      normalize(r["רמת פעילות"]) === a &&
+      normalize(r["דרגה לפני"]) === rb &&
+      normalize(r["וותק (שנים)"]) === s &&
+      normalize(r["דירוג_לפני"]) === db;
+
+    if (!okBasic) return false;
+
+    // אם השדות קיימים – תסנני גם עליהם
+    if (els.profession && prof && normalize(r["מקצוע"]) !== prof) return false;
+    if (els.incentiveGroup && inc && normalize(r["קבוצת תמריץ"]) !== inc) return false;
+
+    return true;
+  });
 }
+
 
 function findOne(rows, stage, operational, extra = {}) {
   const op = Number(operational);
@@ -284,6 +301,15 @@ function attachListeners() {
 
     refreshCalcEnabled();
   });
+  ["profession", "incentiveGroup"].forEach((id) => {
+    if (!els[id]) return;
+    els[id].addEventListener("change", () => {
+      clearResults();
+      refreshOfficerRatings();
+      refreshCalcEnabled();
+    });
+  });
+
 }
 
 function init() {
@@ -305,6 +331,19 @@ function init() {
     "שכר": Number(r["שכר"]),
     "דרגה": normalize(r["דרגה"]),
   }));
+
+  if (els.profession) {
+    const professions = uniq(DATA.map(r => normalize(r["מקצוע"])).filter(Boolean))
+      .sort((a,b) => a.localeCompare(b,"he"));
+    setOptions(els.profession, professions, "בחרי מקצוע...");
+  }
+
+  if (els.incentiveGroup) {
+    const groups = uniq(DATA.map(r => normalize(r["קבוצת תמריץ"])).filter(Boolean))
+      .sort((a,b) => a.localeCompare(b,"he"));
+    setOptions(els.incentiveGroup, groups, "בחרי קבוצת תמריץ...");
+  }
+
 
   const activities = uniq(DATA.map((r) => r["רמת פעילות"]).filter(Boolean)).sort((a, b) => a.localeCompare(b, "he"));
   const ranksBefore = uniq(DATA.map((r) => r["דרגה לפני"]).filter(Boolean)).sort((a, b) => a.localeCompare(b, "he"));
