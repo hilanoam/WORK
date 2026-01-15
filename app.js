@@ -206,17 +206,14 @@ function attachListeners() {
   });
 }
 
-async function init() {
-  // טוענים data.json שיושב באותה תיקייה
-  const res = await fetch("./data.json", { cache: "no-store" });
-  if (!res.ok) {
+function init() {
+  if (!window.SALARY_DATA) {
     els.results.innerHTML =
-      `<div class="warn">⚠️ לא הצלחתי לטעון data.json. ודאי שהוא באותה תיקייה ושהרצת דרך שרת (Live Server).</div>`;
+      `<div class="warn">⚠️ לא נמצא window.SALARY_DATA. ודאי ש-data.js נטען לפני app.js.</div>`;
     return;
   }
 
-  DATA = (await res.json()).map((r) => {
-    // נרמול מינימלי
+  DATA = window.SALARY_DATA.map((r) => {
     return {
       ...r,
       "רמת פעילות": normalize(r["רמת פעילות"]),
@@ -231,14 +228,12 @@ async function init() {
     };
   });
 
-  // בניית תפריטים ראשוניים
   const activities = uniq(DATA.map((r) => r["רמת פעילות"]).filter(Boolean)).sort((a, b) => a.localeCompare(b, "he"));
   const ranksBefore = uniq(DATA.map((r) => r["דרגה לפני"]).filter(Boolean)).sort((a, b) => a.localeCompare(b, "he"));
 
   setOptions(els.activity, activities, "בחרי רמת פעילות...");
   setOptions(els.rankBefore, ranksBefore, "בחרי דרגה...");
 
-  // תלויות לפי בחירה (וותק + דירוג לפני)
   els.activity.addEventListener("change", refreshDependent);
   els.rankBefore.addEventListener("change", refreshDependent);
 
@@ -262,13 +257,14 @@ async function init() {
     refreshCalcEnabled();
   }
 
-  // הפעלה ראשונית
   refreshDependent();
   attachListeners();
   refreshCalcEnabled();
 }
 
-init().catch((e) => {
+try {
+  init();
+} catch (e) {
   console.error(e);
   els.results.innerHTML = `<div class="warn">⚠️ שגיאה בהפעלה: ${e?.message || e}</div>`;
-});
+}
