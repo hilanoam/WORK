@@ -244,3 +244,103 @@ select:focus{ border-color: rgba(29,78,216,.55); box-shadow: 0 0 0 4px rgba(29,7
 }
 .total .label{ font-weight: 900; }
 .total .val{ font-weight: 900; font-size: 20px; }
+
+/* ====== TYPOGRAPHY RESET (אחידות פונט/עובי/גדלים) ====== */
+:root{
+  --font: "Heebo", system-ui, -apple-system, Segoe UI, Arial;
+  --w-regular: 500;
+  --w-bold: 800;
+  --w-black: 900;
+
+  --fs-12: 12px;
+  --fs-14: 14px;
+  --fs-16: 16px;
+  --fs-18: 18px;
+  --fs-22: 22px;
+
+  --radius: 14px;
+  --control-h: 48px;
+}
+
+/* כל הטקסט באתר באותו פונט */
+html, body, button, input, select, textarea {
+  font-family: var(--font);
+  font-weight: var(--w-regular);
+  letter-spacing: 0;
+}
+
+/* כותרת עליונה */
+.title{
+  font-size: var(--fs-18);
+  font-weight: var(--w-black);
+}
+
+/* כותרות של סקשנים ("רמת פעילות", "מקצוע" וכו') */
+.section-title{
+  font-size: var(--fs-16);
+  font-weight: var(--w-black);
+}
+
+/* תוויות של שדות (label) */
+.field label{
+  font-size: var(--fs-14);
+  font-weight: var(--w-bold);
+  color: var(--muted);
+  margin: 0 0 8px;
+}
+
+/* טקסט משני */
+.subtitle, .muted{
+  font-size: var(--fs-12);
+  font-weight: var(--w-regular);
+}
+
+/* ====== UNIFIED CONTROLS (select/input/button אחידים) ====== */
+select, input, textarea{
+  width: 100%;
+  height: var(--control-h);
+  padding: 0 14px;
+  border-radius: var(--radius);
+  border: 1px solid var(--stroke);
+  background: #fff;
+  color: var(--text);
+  font-size: var(--fs-14);
+  font-weight: var(--w-regular);
+  outline: none;
+}
+
+/* תיקון לתצוגת OPTION בדפדפן (כדי שלא יהיה לבן על לבן) */
+select option{
+  color: #0f172a;
+  background: #ffffff;
+}
+
+select:focus, input:focus, textarea:focus{
+  border-color: rgba(29,78,216,.55);
+  box-shadow: 0 0 0 4px rgba(29,78,216,.12);
+}
+
+/* כפתורי segmented באותו גובה כמו select */
+.seg-btn{
+  height: var(--control-h);
+  border-radius: var(--radius);
+  font-size: var(--fs-14);
+  font-weight: var(--w-bold);
+}
+
+/* כפתורים ראשיים */
+.btn-primary, .btn-ghost{
+  height: var(--control-h);
+  border-radius: var(--radius);
+  font-size: var(--fs-14);
+  font-weight: var(--w-black);
+}
+
+/* כרטיסי פעילות – טקסט אחיד */
+.activity-card .name{
+  font-size: var(--fs-14);
+  font-weight: var(--w-black);
+}
+.activity-card{
+  font-weight: var(--w-regular);
+}
