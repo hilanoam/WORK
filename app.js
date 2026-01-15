@@ -76,7 +76,6 @@ function renderActivityCards(values) {
     btn.innerHTML = `
       <div class="icon"><i class="fa-solid ${iconForActivity(v)}"></i></div>
       <div class="name">${v}</div>
-      <div class="desc">${descForActivity(v)}</div>
     `;
     btn.addEventListener("click", () => {
       [...els.activityCards.querySelectorAll(".activity-card")].forEach((x) => x.classList.remove("active"));
