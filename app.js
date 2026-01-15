@@ -159,7 +159,7 @@ function renderResults(beforeRow, afterRow, appointRow) {
   els.results.innerHTML = `
     <div class="calc">
       <div class="line">
-        <div class="label">לפני קק״ק</div>
+        <div class="label">לפני ק״קצ</div>
         <div class="val">₪ ${fmt(beforeSalary)}</div>
       </div>
 
@@ -169,7 +169,7 @@ function renderResults(beforeRow, afterRow, appointRow) {
       </div>
 
       <div class="line">
-        <div class="label">אחרי קק״ק</div>
+        <div class="label">אחרי קק"צ</div>
         <div class="val">₪ ${fmt(afterSalary)}</div>
       </div>
 
@@ -263,7 +263,7 @@ function attachListeners() {
 
     const op = els.operational.value;
     const beforeRow = findOne(baseRows, "לפני", op);
-    const afterRow = findOne(baseRows, 'אחרי קק"ק', op);
+    const afterRow = findOne(baseRows, 'אחרי קק"צ', op);
 
     if (!beforeRow) return showWarning("חסר נתון לשלב 'לפני' עבור הבחירות שלך.");
     if (!afterRow) return showWarning('חסר נתון לשלב "אחרי קק״ק" עבור הבחירות שלך.');

@@ -1,5 +1,10 @@
+/* =========================
+   POLICE SALARY CALC - CSS
+   Clean + Unified
+========================= */
 
 :root{
+  /* Colors */
   --bg:#f3f6fb;
   --card:#ffffff;
   --stroke:#e6eaf2;
@@ -14,19 +19,41 @@
   --warn:#b45309;
 
   --shadow: 0 10px 30px rgba(15, 23, 42, .08);
+
+  /* Typography / sizing */
+  --font: "Heebo", system-ui, -apple-system, Segoe UI, Arial;
+
+  --w-regular: 500;
+  --w-semi: 600;
+  --w-bold: 800;
+  --w-black: 900;
+
+  --fs-12: 12px;
+  --fs-14: 14px;
+  --fs-16: 16px;
+  --fs-18: 18px;
+
+  --radius: 14px;
+  --control-h: 54px;
 }
 
 *{ box-sizing:border-box; }
 
+html, body, button, input, select, textarea{
+  font-family: var(--font);
+  font-weight: var(--w-regular);
+  letter-spacing: 0;
+}
+
 body{
   margin:0;
-  font-family: "Heebo", system-ui, -apple-system, Segoe UI, Arial;
   background: var(--bg);
   color: var(--text);
 }
 
+/* Layout */
 .wrap{
-  max-width: 720px;            /* מרכז וצר כמו מחשבון */
+  max-width: 760px;
   margin: 0 auto;
   padding: 26px 16px;
 }
@@ -39,6 +66,7 @@ body{
   box-shadow: var(--shadow);
 }
 
+/* Top Bar */
 .topbar{
   display:flex;
   justify-content: space-between;
@@ -50,33 +78,63 @@ body{
 
 .brand{ display:flex; align-items:center; gap:12px; }
 .logo{
-  width:44px; height:44px; border-radius:14px;
-  display:grid; place-items:center;
+  width:46px; height:46px;
+  border-radius: 16px;
+  display:grid;
+  place-items:center;
   background: rgba(29,78,216,.10);
   border: 1px solid var(--stroke);
   color: var(--accent);
 }
-.title{ font-weight: 900; font-size: 18px; line-height: 1; }
-.subtitle{ color: var(--muted); font-size: 12px; margin-top: 4px; }
+
+.title{
+  font-size: var(--fs-18);
+  font-weight: var(--w-black);
+  line-height: 1.1;
+}
+.subtitle{
+  color: var(--muted);
+  font-size: var(--fs-12);
+  margin-top: 4px;
+}
 
 .badge{
-  display:inline-flex; align-items:center; gap:8px;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
   padding: 8px 10px;
   border-radius: 999px;
   border:1px solid var(--stroke);
   background: #f8fafc;
   color: var(--muted);
-  font-size: 12px;
+  font-size: var(--fs-12);
 }
 
+/* Sections */
 .section{ padding-top: 14px; }
+
 .section-title{
-  display:flex; align-items:center; gap:10px;
-  font-weight: 900;
+  display:flex;
+  align-items:center;
+  gap:10px;
   margin-bottom: 10px;
+  font-size: var(--fs-16);
+  font-weight: var(--w-bold);
 }
 
-/* 4) הכל לאורך – שדה אחרי שדה */
+/* אייקון קבוע לכותרות */
+.section-title i{
+  width: 30px;
+  height: 30px;
+  border-radius: 12px;
+  display:grid;
+  place-items:center;
+  background: rgba(29,78,216,.08);
+  border: 1px solid rgba(29,78,216,.18);
+  color: var(--accent);
+}
+
+/* Fields layout - one column */
 .grid2{
   display:grid;
   grid-template-columns: 1fr;
@@ -86,21 +144,35 @@ body{
 .field label{
   display:block;
   color: var(--muted);
-  font-size: 12px;
-  margin-bottom: 8px;
+  font-size: var(--fs-14);
+  font-weight: var(--w-semi);
+  margin: 0 0 8px;
 }
 
-select{
-  width:100%;
-  padding: 12px 12px;
-  border-radius: 14px;
+/* Controls */
+select, input, textarea{
+  width: 100%;
+  height: var(--control-h);
+  padding: 0 14px;
+  border-radius: var(--radius);
   border: 1px solid var(--stroke);
   background: #ffffff;
   color: var(--text);
+  font-size: var(--fs-14);
   outline: none;
 }
-select:focus{ border-color: rgba(29,78,216,.55); box-shadow: 0 0 0 4px rgba(29,78,216,.12); }
 
+select option{
+  color: #0f172a;
+  background: #ffffff;
+}
+
+select:focus, input:focus, textarea:focus{
+  border-color: rgba(29,78,216,.55);
+  box-shadow: 0 0 0 4px rgba(29,78,216,.12);
+}
+
+/* Segmented Buttons */
 .segmented{
   display:flex;
   gap:10px;
@@ -108,34 +180,56 @@ select:focus{ border-color: rgba(29,78,216,.55); box-shadow: 0 0 0 4px rgba(29,7
 
 .seg-btn{
   flex: 1;
-  padding: 11px 12px;
-  border-radius: 14px;
+  height: 58px;
+  border-radius: var(--radius);
   border:1px solid var(--stroke);
   background: #ffffff;
   color: var(--text);
   cursor:pointer;
+
   display:flex;
-  gap:10px;
+  gap:12px;
   align-items:center;
   justify-content:center;
+
   transition: transform .08s ease, border-color .2s ease, background .2s ease;
+  font-size: var(--fs-14);
+  font-weight: var(--w-bold);
 }
 
-.seg-btn:hover{ transform: translateY(-1px); border-color: rgba(29,78,216,.35); }
+.seg-btn:hover{
+  transform: translateY(-1px);
+  border-color: rgba(29,78,216,.35);
+}
+
 .seg-btn.active{
   background: rgba(29,78,216,.10);
   border-color: rgba(29,78,216,.55);
   color: var(--accent);
-  font-weight: 800;
 }
 
-/* כרטיסים לרמת פעילות */
+/* Bigger, special icons for Officer/NCO */
+#population .seg-btn i{
+  width: 38px;
+  height: 38px;
+  border-radius: 14px;
+  display:grid;
+  place-items:center;
+  background: rgba(29,78,216,.10);
+  border: 1px solid rgba(29,78,216,.22);
+  color: var(--accent);
+  font-size: 22px;
+}
+
+/* Activity cards */
 .activity-grid{
   display:grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
 }
-@media (max-width: 520px){ .activity-grid{ grid-template-columns: 1fr; } }
+@media (max-width: 520px){
+  .activity-grid{ grid-template-columns: 1fr; }
+}
 
 .activity-card{
   padding: 14px;
@@ -148,50 +242,69 @@ select:focus{ border-color: rgba(29,78,216,.55); box-shadow: 0 0 0 4px rgba(29,7
   overflow:hidden;
   text-align: right;
 }
-.activity-card:hover{ transform: translateY(-1px); border-color: rgba(29,78,216,.35); }
+
+.activity-card:hover{
+  transform: translateY(-1px);
+  border-color: rgba(29,78,216,.35);
+}
+
 .activity-card.active{
   background: rgba(29,78,216,.08);
   border-color: rgba(29,78,216,.55);
 }
-.activity-card .name{ font-weight: 900; font-size: 14px; }
-.activity-card .desc{ color: var(--muted); font-size: 12px; margin-top: 6px; }
+
+/* ✅ לא Bold מוגזם */
+.activity-card .name{
+  font-weight: var(--w-semi);
+  font-size: var(--fs-14);
+}
+
 .activity-card .icon{
   position:absolute;
   top: 10px;
   left: 10px;
-  opacity: .18;
+  opacity: .16;
   font-size: 22px;
   color: var(--accent);
 }
 
-/* 3) הכל ממורכז – כרטיס באמצע, כפתורים עם יישור */
+/* Actions */
 .actions{
   display:flex;
   gap: 10px;
   padding-top: 14px;
   justify-content: center;
 }
+
 .btn-primary{
   flex: 1;
+  height: var(--control-h);
   border:0;
-  border-radius: 16px;
-  padding: 13px 14px;
-  font-weight: 900;
+  border-radius: var(--radius);
+  padding: 0 14px;
+  font-weight: var(--w-black);
   color: #ffffff;
   background: linear-gradient(90deg, var(--accent), var(--accent2));
   cursor:pointer;
 }
-.btn-primary:disabled{ opacity:.5; cursor:not-allowed; }
+
+.btn-primary:disabled{
+  opacity:.5;
+  cursor:not-allowed;
+}
+
 .btn-ghost{
-  border-radius: 16px;
-  padding: 13px 14px;
+  height: var(--control-h);
+  border-radius: var(--radius);
+  padding: 0 14px;
   border:1px solid var(--stroke);
   background: #ffffff;
   color: var(--text);
   cursor:pointer;
+  font-weight: var(--w-bold);
 }
 
-/* תוצאות */
+/* Results */
 .results{ margin-top: 14px; }
 
 .warn{
@@ -202,7 +315,7 @@ select:focus{ border-color: rgba(29,78,216,.55); box-shadow: 0 0 0 4px rgba(29,7
   color: var(--warn);
 }
 
-/* 5) תצוגת "מחשבון" אנכית */
+/* Calculator display */
 .calc{
   margin-top: 10px;
   border:1px solid var(--stroke);
@@ -215,22 +328,29 @@ select:focus{ border-color: rgba(29,78,216,.55); box-shadow: 0 0 0 4px rgba(29,7
   display:flex;
   justify-content: space-between;
   align-items: baseline;
-  padding: 8px 0;
+  padding: 10px 0;
   border-bottom: 1px dashed var(--stroke);
 }
 .line:last-child{ border-bottom:0; }
 
-.line .label{ color: var(--muted); font-weight: 700; }
-.line .val{ font-weight: 900; font-size: 18px; }
+.line .label{
+  color: var(--muted);
+  font-weight: var(--w-semi);
+}
+.line .val{
+  font-weight: var(--w-black);
+  font-size: 18px;
+}
 
 .op{
   display:flex;
   justify-content: flex-start;
   gap: 10px;
   padding: 10px 0;
-  font-weight: 900;
+  font-weight: var(--w-black);
 }
 .op .sign{ width: 24px; text-align:center; }
+
 .op.positive{ color: var(--good); }
 .op.negative{ color: var(--bad); }
 
@@ -242,105 +362,67 @@ select:focus{ border-color: rgba(29,78,216,.55); box-shadow: 0 0 0 4px rgba(29,7
   justify-content: space-between;
   align-items: baseline;
 }
-.total .label{ font-weight: 900; }
-.total .val{ font-weight: 900; font-size: 20px; }
 
-/* ====== TYPOGRAPHY RESET (אחידות פונט/עובי/גדלים) ====== */
-:root{
-  --font: "Heebo", system-ui, -apple-system, Segoe UI, Arial;
-  --w-regular: 500;
-  --w-bold: 800;
-  --w-black: 900;
+.total .label{ font-weight: var(--w-bold); }
+.total .val{ font-weight: var(--w-black); font-size: 20px; }
 
-  --fs-12: 12px;
-  --fs-14: 14px;
-  --fs-16: 16px;
-  --fs-18: 18px;
-  --fs-22: 22px;
-
-  --radius: 14px;
-  --control-h: 48px;
-}
-
-/* כל הטקסט באתר באותו פונט */
-html, body, button, input, select, textarea {
-  font-family: var(--font);
-  font-weight: var(--w-regular);
-  letter-spacing: 0;
-}
-
-/* כותרת עליונה */
-.title{
-  font-size: var(--fs-18);
-  font-weight: var(--w-black);
-}
-
-/* כותרות של סקשנים ("רמת פעילות", "מקצוע" וכו') */
-.section-title{
-  font-size: var(--fs-16);
-  font-weight: var(--w-black);
-}
-
-/* תוויות של שדות (label) */
-.field label{
-  font-size: var(--fs-14);
-  font-weight: var(--w-bold);
-  color: var(--muted);
-  margin: 0 0 8px;
-}
-
-/* טקסט משני */
-.subtitle, .muted{
-  font-size: var(--fs-12);
-  font-weight: var(--w-regular);
-}
-
-/* ====== UNIFIED CONTROLS (select/input/button אחידים) ====== */
-select, input, textarea{
-  width: 100%;
-  height: var(--control-h);
-  padding: 0 14px;
-  border-radius: var(--radius);
+/* Stepper (Optional UI) */
+.stepper{
+  display:flex;
+  gap: 10px;
+  align-items:center;
+  margin-top: 12px;
+  padding: 10px;
   border: 1px solid var(--stroke);
-  background: #fff;
-  color: var(--text);
-  font-size: var(--fs-14);
-  font-weight: var(--w-regular);
-  outline: none;
-}
-
-/* תיקון לתצוגת OPTION בדפדפן (כדי שלא יהיה לבן על לבן) */
-select option{
-  color: #0f172a;
+  border-radius: 16px;
   background: #ffffff;
 }
 
-select:focus, input:focus, textarea:focus{
-  border-color: rgba(29,78,216,.55);
-  box-shadow: 0 0 0 4px rgba(29,78,216,.12);
-}
-
-/* כפתורי segmented באותו גובה כמו select */
-.seg-btn{
-  height: var(--control-h);
-  border-radius: var(--radius);
-  font-size: var(--fs-14);
+.step{
+  flex:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid var(--stroke);
+  background: #f8fafc;
+  color: var(--muted);
   font-weight: var(--w-bold);
+  font-size: var(--fs-14);
 }
 
-/* כפתורים ראשיים */
-.btn-primary, .btn-ghost{
+.step i{
+  width: 30px; height: 30px;
+  border-radius: 12px;
+  display:grid; place-items:center;
+  background: rgba(29,78,216,.08);
+  border: 1px solid rgba(29,78,216,.18);
+  color: var(--accent);
+}
+
+.step.active{
+  background: rgba(29,78,216,.10);
+  border-color: rgba(29,78,216,.55);
+  color: var(--accent);
+}
+
+/* Copy button (optional) */
+.copy-btn{
+  margin-top: 10px;
+  width: 100%;
   height: var(--control-h);
   border-radius: var(--radius);
-  font-size: var(--fs-14);
-  font-weight: var(--w-black);
+  border: 1px solid var(--stroke);
+  background: #ffffff;
+  cursor:pointer;
+  font-weight: var(--w-bold);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap: 10px;
 }
-
-/* כרטיסי פעילות – טקסט אחיד */
-.activity-card .name{
-  font-size: var(--fs-14);
-  font-weight: var(--w-black);
-}
-.activity-card{
-  font-weight: var(--w-regular);
+.copy-btn:hover{
+  border-color: rgba(29,78,216,.35);
 }
