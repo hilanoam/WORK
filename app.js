@@ -19,6 +19,9 @@ const els = {
   profession: document.getElementById("profession"),
   incentiveGroup: document.getElementById("incentiveGroup"),
 
+  exportArea: document.getElementById("exportArea"),
+  exportBtn: document.getElementById("exportBtn"),
+
 };
 
 let DATA = [];
