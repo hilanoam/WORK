@@ -44,37 +44,45 @@
         <div class="section-title"><i class="fa-solid fa-layer-group"></i> רמת פעילות</div>
         <div class="activity-grid" id="activityCards"></div>
 
-        <!-- נשאר בשביל לוגיקה (מוסתר) -->
         <select id="activity" style="display:none"></select>
       </div>
 
-      <div class="section grid2">
-        <div class="field">
-          <label>מקצוע</label>
-          <select id="profession"></select>
+        <div class="section">
+          <div class="section-title"><i class="fa-solid fa-briefcase"></i> מקצוע</div>
+          <div class="field">
+            <select id="profession"></select>
+          </div>
         </div>
 
-        <div class="field">
-          <label>קבוצת תמריץ</label>
-          <select id="incentiveGroup"></select>
+        <div class="section">
+          <div class="section-title"><i class="fa-solid fa-gift"></i> קבוצת תמריץ</div>
+          <div class="field">
+            <select id="incentiveGroup"></select>
+          </div>
         </div>
 
-        <div class="field">
-          <label>דרגה לפני</label>
-          <select id="rankBefore"></select>
+        <div class="section">
+          <div class="section-title"><i class="fa-solid fa-chevron-up"></i> דרגה לפני</div>
+          <div class="field">
+            <select id="rankBefore"></select>
+          </div>
         </div>
 
-        <div class="field">
-          <label>וותק (שנים)</label>
-          <select id="seniority"></select>
+        <div class="section">
+          <div class="section-title"><i class="fa-solid fa-hourglass-half"></i> וותק </div>
+          <div class="field">
+            <select id="seniority"></select>
+          </div>
         </div>
 
-        <div class="field">
-          <label>דירוג לפני</label>
-          <select id="ratingBefore"></select>
+        <div class="section">
+          <div class="section-title"><i class="fa-solid fa-list-check"></i> דירוג לפני</div>
+          <div class="field">
+            <select id="ratingBefore"></select>
+          </div>
         </div>
 
-        <div class="field">
+        <div class="section">
           <label>תחנה מבצעית?</label>
           <div class="segmented" id="operationalSeg">
             <button type="button" class="seg-btn active" data-value="0">
@@ -92,7 +100,7 @@
           </select>
         </div>
 
-        <div class="field">
+        <div class="section">
           <label>מינוי אחרי קק״ק</label>
           <select id="appointment">
             <option value="">בלי מינוי (רק אחרי קק״ק)</option>
@@ -101,11 +109,12 @@
           </select>
         </div>
 
-        <div class="field">
-          <label>דירוג קצין (לבחירה)</label>
-          <select id="officerRating" disabled></select>
+        <div class="section">
+          <div class="section-title"><i class="fa-solid fa-ranking-star"></i> דירוג קצין</div>
+          <div class="field">
+            <select id="officerRating" disabled></select>
+          </div>
         </div>
-      </div>
 
       <div class="actions">
         <button class="btn-primary" id="calcBtn" disabled>
