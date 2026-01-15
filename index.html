@@ -1,44 +1,23 @@
 <!doctype html>
-<link rel="preconnect" href="https://cdnjs.cloudflare.com" />
-<link rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-
 <html lang="he" dir="rtl">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>מחשבון שכר – קק״ק</title>
-  <style>
-    body { font-family: system-ui, Arial; background:#f6f7fb; margin:0; }
-    .wrap { max-width: 980px; margin: 0 auto; padding: 22px; }
-    .card { background:#fff; border:1px solid #e7e7ef; border-radius:14px; padding:16px; box-shadow:0 4px 18px rgba(0,0,0,.05); }
-    h1 { margin: 0 0 10px; font-size: 22px; }
-    .grid { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; }
-    label { font-size: 13px; color:#333; display:block; margin-bottom:6px; }
-    select, input[type="number"] {
-      width:100%; padding:10px 12px; border:1px solid #d9d9e6; border-radius:10px; background:#fff;
-      font-size: 14px;
-    }
-    .row { display:flex; gap:10px; align-items:center; }
-    .row > * { flex:1; }
-    .btn {
-      width: 100%; padding: 12px 14px; border:0; border-radius:12px;
-      background:#2b6fff; color:#fff; font-weight:700; cursor:pointer;
-    }
-    .btn:disabled { background:#a9bdf7; cursor:not-allowed; }
-    .results { margin-top: 14px; }
-    .pill { display:inline-block; padding:4px 10px; border-radius:999px; background:#f0f2ff; border:1px solid #dde2ff; font-size:12px; }
-    .kpi { display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; margin-top: 10px; }
-    .kpi .box { border:1px solid #eee; border-radius:12px; padding: 12px; }
-    .muted { color:#666; font-size: 13px; }
-    .big { font-size: 18px; font-weight: 800; margin-top: 6px; }
-    .warn { background:#fff3cd; border:1px solid #ffe69c; padding:10px 12px; border-radius:12px; margin-top: 12px; }
-    @media (max-width: 780px){ .grid{ grid-template-columns:1fr; } .kpi{ grid-template-columns:1fr; } }
-  </style>
+
+  <!-- Icons -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Your CSS -->
+  <link rel="stylesheet" href="./style.css" />
 </head>
+
 <body>
   <div class="wrap">
-        <div class="card">
+    <div class="card">
+
       <div class="topbar">
         <div class="brand">
           <div class="logo"><i class="fa-solid fa-calculator"></i></div>
@@ -56,12 +35,10 @@
         <div class="section-title"><i class="fa-solid fa-user-gear"></i> סוג אוכלוסייה</div>
         <div class="segmented" id="population">
           <button type="button" class="seg-btn active" data-value="קצין">
-            <i class="fa-solid fa-user-tie"></i>
-            <span>קצין</span>
+            <i class="fa-solid fa-user-tie"></i><span>קצין</span>
           </button>
           <button type="button" class="seg-btn" data-value="נגד">
-            <i class="fa-solid fa-user-shield"></i>
-            <span>נגד</span>
+            <i class="fa-solid fa-user-shield"></i><span>נגד</span>
           </button>
         </div>
       </div>
@@ -69,7 +46,8 @@
       <div class="section">
         <div class="section-title"><i class="fa-solid fa-layer-group"></i> רמת פעילות</div>
         <div class="activity-grid" id="activityCards"></div>
-        <!-- שומרת תאימות לקוד שלך: הסלקט קיים אבל מוסתר -->
+
+        <!-- נשאר בשביל לוגיקה (מוסתר) -->
         <select id="activity" style="display:none"></select>
       </div>
 
@@ -99,9 +77,10 @@
               <i class="fa-solid fa-bolt"></i><span>כן</span>
             </button>
           </div>
-          <!-- תאימות לקוד -->
+
+          <!-- נשאר בשביל לוגיקה (מוסתר) -->
           <select id="operational" style="display:none">
-            <option value="0">לא</option>
+            <option value="0" selected>לא</option>
             <option value="1">כן</option>
           </select>
         </div>
@@ -132,11 +111,10 @@
 
       <div class="results" id="results"></div>
     </div>
-
   </div>
 
+  <!-- חשוב: data.js לפני app.js -->
   <script src="./data.js"></script>
-<script src="./app.js"></script>
-
+  <script src="./app.js"></script>
 </body>
 </html>
