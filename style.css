@@ -7,7 +7,7 @@
   --text:#0f172a;
   --muted:#475569;
 
-  --accent:#1d4ed8;   /* כחול שירות */
+  --accent:#335cce;   /* כחול שירות */
   --accent2:#2563eb;
 
   --good:#16a34a;
@@ -199,7 +199,7 @@ select:focus, input:focus, textarea:focus{
 }
 
 .seg-btn.active{
-  background: rgba(29,78,216,.10);
+  background: rgba(21, 38, 87, 0.1);
   border-color: rgba(29,78,216,.55);
   color: var(--accent);
 }
