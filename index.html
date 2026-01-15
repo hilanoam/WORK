@@ -3,44 +3,95 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>מחשבון שכר</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>מחשבון שכר – קק״ק</title>
+  <style>
+    body { font-family: system-ui, Arial; background:#f6f7fb; margin:0; }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 22px; }
+    .card { background:#fff; border:1px solid #e7e7ef; border-radius:14px; padding:16px; box-shadow:0 4px 18px rgba(0,0,0,.05); }
+    h1 { margin: 0 0 10px; font-size: 22px; }
+    .grid { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; }
+    label { font-size: 13px; color:#333; display:block; margin-bottom:6px; }
+    select, input[type="number"] {
+      width:100%; padding:10px 12px; border:1px solid #d9d9e6; border-radius:10px; background:#fff;
+      font-size: 14px;
+    }
+    .row { display:flex; gap:10px; align-items:center; }
+    .row > * { flex:1; }
+    .btn {
+      width: 100%; padding: 12px 14px; border:0; border-radius:12px;
+      background:#2b6fff; color:#fff; font-weight:700; cursor:pointer;
+    }
+    .btn:disabled { background:#a9bdf7; cursor:not-allowed; }
+    .results { margin-top: 14px; }
+    .pill { display:inline-block; padding:4px 10px; border-radius:999px; background:#f0f2ff; border:1px solid #dde2ff; font-size:12px; }
+    .kpi { display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; margin-top: 10px; }
+    .kpi .box { border:1px solid #eee; border-radius:12px; padding: 12px; }
+    .muted { color:#666; font-size: 13px; }
+    .big { font-size: 18px; font-weight: 800; margin-top: 6px; }
+    .warn { background:#fff3cd; border:1px solid #ffe69c; padding:10px 12px; border-radius:12px; margin-top: 12px; }
+    @media (max-width: 780px){ .grid{ grid-template-columns:1fr; } .kpi{ grid-template-columns:1fr; } }
+  </style>
 </head>
 <body>
-  <main class="card">
-  <h1>מחשבון שכר (ניסוי)</h1>
+  <div class="wrap">
+    <div class="card">
+      <h1>מחשבון שכר – יציאה לקק״ק</h1>
+      <div class="muted">ממלאים פרטים → מקבלים שכר לפני/אחרי קק״ק + מינוי (מפקח/פקד) לפי דירוג קצין שהמשתמש בוחר.</div>
 
-  <label>קבוצה
-    <select id="group">
-      <option value="5">5</option>
-    </select>
-  </label>
+      <hr style="border:0;border-top:1px solid #eee; margin:14px 0;" />
 
-  <label>ותק
-    <select id="seniority">
-      <option value="0">0</option>
-      <option value="3">3</option>
-    </select>
-  </label>
+      <div class="grid">
+        <div>
+          <label>רמת פעילות</label>
+          <select id="activity"></select>
+        </div>
 
-  <label>פעילות
-    <select id="activity"></select>
-  </label>
+        <div>
+          <label>דרגה לפני</label>
+          <select id="rankBefore"></select>
+        </div>
 
-  <label>דירוג
-    <select id="rating"></select>
-  </label>
+        <div>
+          <label>וותק (שנים)</label>
+          <select id="seniority"></select>
+        </div>
 
-  <label>גמול א'
-    <select id="gemulA"></select>
-  </label>
+        <div>
+          <label>דירוג לפני</label>
+          <select id="ratingBefore"></select>
+        </div>
 
-  <button id="calc" disabled>חשב</button>
+        <div>
+          <label>תחנה מבצעית?</label>
+          <select id="operational">
+            <option value="0">לא</option>
+            <option value="1">כן</option>
+          </select>
+        </div>
 
-  <p id="out" class="out"></p>
-</main>
+        <div>
+          <label>מינוי אחרי קק״ק</label>
+          <select id="appointment">
+            <option value="">בלי מינוי (רק אחרי קק״ק)</option>
+            <option value="מינוי מפקח">מפקח</option>
+            <option value="מינוי פקד">פקד</option>
+          </select>
+        </div>
 
-<script src="app.js"></script>
+        <div>
+          <label>דירוג קצין (לבחירה)</label>
+          <select id="officerRating" disabled></select>
+        </div>
 
+        <div style="display:flex; align-items:end;">
+          <button class="btn" id="calcBtn" disabled>חשב שכר</button>
+        </div>
+      </div>
+
+      <div class="results" id="results"></div>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
 </body>
 </html>
