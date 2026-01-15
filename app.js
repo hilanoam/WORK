@@ -121,16 +121,7 @@ function filterBase() {
 function findOne(rows, stage, operational, extra = {}) {
   const op = Number(operational);
   const candidates = rows.filter((r) => {
-    //if (normalize(r["שלב"]) !== normalize(stage)) return false;
-    const normStage = (x) =>
-      normalize(x)
-        .replace(/[״“”]/g, '"')
-        .replace(/[׳‘’]/g, "'")
-        .replace(/[\u200f\u200e]/g, "") // סימני RTL/LTR נסתרים
-        .replace(/קק["״׳']?צ/g, "קק\"צ"); // לאחד וריאציות נפוצות
-
-    if (normStage(r["שלב"]) !== normStage(stage)) return false;
-
+    if (normalize(r["שלב"]) !== normalize(stage)) return false;
     if (Number(r["תחנה_מבצעית"]) !== op) return false;
     for (const [k, v] of Object.entries(extra)) {
       if (normalize(r[k]) !== normalize(v)) return false;
@@ -207,7 +198,6 @@ function renderResults(beforeRow, afterRow, appointRow) {
 }
 
 
-
 function refreshOfficerRatings() {
   const ap = els.appointment.value;
   els.officerRating.disabled = !ap;
@@ -273,7 +263,7 @@ function attachListeners() {
 
     const op = els.operational.value;
     const beforeRow = findOne(baseRows, "לפני", op);
-    const afterRow = findOne(baseRows, 'אחרי קק"צ', op);
+    const afterRow = findOne(baseRows, 'אחרי', op);
 
     if (!beforeRow) return showWarning("חסר נתון לשלב 'לפני' עבור הבחירות שלך.");
     if (!afterRow) return showWarning('חסר נתון לשלב "אחרי קק״ק" עבור הבחירות שלך.');
