@@ -66,15 +66,6 @@ function iconForActivity(name) {
   return "fa-layer-group";
 }
 
-function descForActivity(name) {
-  const t = normalize(name);
-  if (t.includes("א'")) return "רמה בסיסית";
-  if (t.includes("ב'")) return "תחנה מבצעית/פעילות גבוהה";
-  if (t.includes("ג'")) return "רמה מתקדמת";
-  if (t.includes("ד'")) return "רמה מיוחדת";
-  return "בחירה לפי טבלה";
-}
-
 function renderActivityCards(values) {
   els.activityCards.innerHTML = "";
   values.forEach((v) => {
