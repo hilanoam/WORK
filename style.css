@@ -69,18 +69,20 @@ body{
   align-items:center;
   justify-content: space-between;
   gap: 16px;
-  padding: 14px 14px 18px;
+  padding: 14px 12px 18px;
   border-bottom: 1px solid var(--stroke);
 }
 
 /* לוגואים למעלה */
 .top-logo{
-  width: 74px;      /* ✅ גדולים יותר */
-  height: 74px;
+  width: 90px;      /* ✅ גדולים יותר */
+  height: 90px;
   object-fit: contain;
   display:block;
+  z-index: 2;
 }
-
+.top-logo.left{ margin-left: 4px; }
+.top-logo.right{ margin-right: 4px; }
 /* שמאל */
 .top-logo-left{
   opacity: .95;
@@ -98,10 +100,17 @@ body{
   text-align: right;
   line-height: 1.05;
 }
-
+.brand-center{
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  line-height: 1.05;
+  z-index: 1;
+}
 /* כותרת גדולה יותר כדי "להכניס" הכל יפה */
 .title{
-  font-size: 26px;          /* ✅ גדול יותר */
+  font-size: 28px;          /* ✅ גדול יותר */
   font-weight: var(--w-black);
   margin: 0;
 }
@@ -116,7 +125,7 @@ body{
 
 /* רספונסיבי - במובייל מקטינים קצת */
 @media (max-width: 520px){
-  .top-logo{ width: 58px; height: 58px; }
+  .top-logo{ width: 64px; height: 64px; }
   .title{ font-size: 22px; }
   .subtitle{ font-size: 12px; }
 }
