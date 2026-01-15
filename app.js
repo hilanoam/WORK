@@ -11,6 +11,12 @@ const els = {
   results: document.getElementById("results"),
 };
 
+els.activityCards = document.getElementById("activityCards");
+els.population = document.getElementById("population");
+els.operationalSeg = document.getElementById("operationalSeg");
+els.resetBtn = document.getElementById("resetBtn");
+
+
 let DATA = [];
 
 const normalize = (v) => String(v ?? "").trim().replace(/\s+/g, " ");
@@ -19,6 +25,18 @@ const moneyILS = (n) =>
 
 function uniq(arr) {
   return [...new Set(arr)];
+}
+
+function wireSegment(containerEl, hiddenSelectEl) {
+  const buttons = [...containerEl.querySelectorAll(".seg-btn")];
+  buttons.forEach((b) => {
+    b.addEventListener("click", () => {
+      buttons.forEach(x => x.classList.remove("active"));
+      b.classList.add("active");
+      hiddenSelectEl.value = b.dataset.value;
+      hiddenSelectEl.dispatchEvent(new Event("change"));
+    });
+  });
 }
 
 function setOptions(selectEl, values, placeholder = "בחרי...") {
@@ -81,34 +99,49 @@ function renderResults(beforeRow, afterRow, appointRow) {
   const afterRank = normalize(afterRow?.["דרגה"]);
   const officerRank = appointRow ? normalize(appointRow["דרגה"]) : "";
 
+  const beforeSalary = Number(beforeRow["שכר"]);
+  const afterSalary = Number(afterRow["שכר"]);
+  const diff = afterSalary - beforeSalary;
+
+  const diffClass = diff < 0 ? "negative" : "positive";
+  const diffSign = diff < 0 ? "" : "+";
+
   const pills = [
-    `<span class="pill">לפני: ${beforeRank || "-"}</span>`,
-    `<span class="pill">אחרי קק״ק: ${afterRank || "-"}</span>`,
-    appointRow ? `<span class="pill">${normalize(appointRow["שלב"])}: ${officerRank || "-"}</span>` : "",
+    `<span class="badge"><i class="fa-solid fa-arrow-right"></i> לפני: ${beforeRank || "-"}</span>`,
+    `<span class="badge"><i class="fa-solid fa-graduation-cap"></i> אחרי קק״ק: ${afterRank || "-"}</span>`,
+    appointRow ? `<span class="badge"><i class="fa-solid fa-id-badge"></i> ${normalize(appointRow["שלב"])}: ${officerRank || "-"}</span>` : "",
   ].filter(Boolean).join(" ");
 
   const kpis = `
+    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">${pills}</div>
+
     <div class="kpi">
       <div class="box">
         <div class="muted">שכר לפני קק״ק</div>
-        <div class="big">${moneyILS(beforeRow["שכר"])}</div>
+        <div class="big">${moneyILS(beforeSalary)}</div>
       </div>
       <div class="box">
         <div class="muted">שכר אחרי קק״ק</div>
-        <div class="big">${moneyILS(afterRow["שכר"])}</div>
+        <div class="big">${moneyILS(afterSalary)}</div>
       </div>
       <div class="box">
         <div class="muted">${appointRow ? `שכר ${normalize(appointRow["שלב"])}` : "מינוי"}</div>
         <div class="big">${appointRow ? moneyILS(appointRow["שכר"]) : "-"}</div>
       </div>
     </div>
+
+    <div class="delta ${diffClass}">
+      <div>
+        <div class="muted">הפרש (אחרי - לפני)</div>
+        <div class="value">${diffSign}${moneyILS(diff)}</div>
+      </div>
+      <div class="chip"><i class="fa-solid fa-chart-line"></i> חישוב אוטומטי</div>
+    </div>
   `;
 
-  els.results.innerHTML = `
-    <div style="margin-bottom:10px;">${pills}</div>
-    ${kpis}
-  `;
+  els.results.innerHTML = kpis;
 }
+
 
 function refreshOfficerRatings() {
   // דירוג קצין רלוונטי רק אם בחרו מינוי
@@ -204,7 +237,36 @@ function attachListeners() {
 
     renderResults(beforeRow, afterRow, appointRow);
   });
+
+    els.resetBtn?.addEventListener("click", () => {
+    els.results.innerHTML = "";
+    // איפוס selects
+    els.rankBefore.value = "";
+    els.seniority.value = "";
+    els.ratingBefore.value = "";
+    els.appointment.value = "";
+    els.officerRating.value = "";
+    els.officerRating.disabled = true;
+
+    // איפוס מבצעית ל"לא"
+    els.operational.value = "0";
+    [...els.operationalSeg.querySelectorAll(".seg-btn")].forEach(x => x.classList.remove("active"));
+    els.operationalSeg.querySelector('.seg-btn[data-value="0"]')?.classList.add("active");
+
+    // איפוס רמת פעילות
+    els.activity.value = "";
+    [...els.activityCards.querySelectorAll(".activity-card")].forEach(x => x.classList.remove("active"));
+
+    refreshCalcEnabled();
+  });
+
 }
+
+wireSegment(els.operationalSeg, els.operational);
+wireSegment(els.population, { 
+  value: "קצין",
+  dispatchEvent: () => {} // כרגע רק UI, לא משפיע על חישוב
+});
 
 function init() {
   if (!window.SALARY_DATA) {
@@ -261,6 +323,51 @@ function init() {
   attachListeners();
   refreshCalcEnabled();
 }
+// כרטיסים לרמות פעילות
+function iconForActivity(name) {
+  const t = normalize(name);
+  if (t.includes("א'")) return "fa-flag";
+  if (t.includes("ב'")) return "fa-bolt";
+  if (t.includes("ג'")) return "fa-tower-observation";
+  if (t.includes("ד'")) return "fa-shield";
+  return "fa-layer-group";
+}
+
+function descForActivity(name) {
+  const t = normalize(name);
+  if (t.includes("א'")) return "רמה בסיסית";
+  if (t.includes("ב'")) return "תחנה מבצעית/פעילות גבוהה";
+  if (t.includes("ג'")) return "רמה מתקדמת";
+  if (t.includes("ד'")) return "רמה מיוחדת";
+  return "בחירה לפי טבלה";
+}
+
+function renderActivityCards(values) {
+  els.activityCards.innerHTML = "";
+  values.forEach((v) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "activity-card";
+    btn.dataset.value = v;
+    btn.innerHTML = `
+      <div class="icon"><i class="fa-solid ${iconForActivity(v)}"></i></div>
+      <div class="name">${v}</div>
+      <div class="desc">${descForActivity(v)}</div>
+    `;
+    btn.addEventListener("click", () => {
+      // מסמנים Active בכרטיסים
+      [...els.activityCards.querySelectorAll(".activity-card")].forEach(x => x.classList.remove("active"));
+      btn.classList.add("active");
+
+      // מעדכנים את הסלקט החבוי כדי שהקוד הקיים ימשיך לעבוד
+      els.activity.value = v;
+      els.activity.dispatchEvent(new Event("change"));
+    });
+    els.activityCards.appendChild(btn);
+  });
+}
+
+renderActivityCards(activities);
 
 try {
   init();

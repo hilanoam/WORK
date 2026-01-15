@@ -1,4 +1,8 @@
 <!doctype html>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+<link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
 <html lang="he" dir="rtl">
 <head>
   <meta charset="utf-8" />
@@ -34,42 +38,75 @@
 </head>
 <body>
   <div class="wrap">
-    <div class="card">
-      <h1>מחשבון שכר – יציאה לקק״ק</h1>
-      <div class="muted">ממלאים פרטים → מקבלים שכר לפני/אחרי קק״ק + מינוי (מפקח/פקד) לפי דירוג קצין שהמשתמש בוחר.</div>
-
-      <hr style="border:0;border-top:1px solid #eee; margin:14px 0;" />
-
-      <div class="grid">
-        <div>
-          <label>רמת פעילות</label>
-          <select id="activity"></select>
+        <div class="card">
+      <div class="topbar">
+        <div class="brand">
+          <div class="logo"><i class="fa-solid fa-calculator"></i></div>
+          <div>
+            <div class="title">מחשבון שכר – קק״ק</div>
+            <div class="subtitle">תוצאה ברורה + הפרשים מודגשים</div>
+          </div>
         </div>
+        <div class="badge-sec">
+          <span class="badge"><i class="fa-solid fa-shield-halved"></i> גרסת שירות</span>
+        </div>
+      </div>
 
-        <div>
+      <div class="section">
+        <div class="section-title"><i class="fa-solid fa-user-gear"></i> סוג אוכלוסייה</div>
+        <div class="segmented" id="population">
+          <button type="button" class="seg-btn active" data-value="קצין">
+            <i class="fa-solid fa-user-tie"></i>
+            <span>קצין</span>
+          </button>
+          <button type="button" class="seg-btn" data-value="נגד">
+            <i class="fa-solid fa-user-shield"></i>
+            <span>נגד</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><i class="fa-solid fa-layer-group"></i> רמת פעילות</div>
+        <div class="activity-grid" id="activityCards"></div>
+        <!-- שומרת תאימות לקוד שלך: הסלקט קיים אבל מוסתר -->
+        <select id="activity" style="display:none"></select>
+      </div>
+
+      <div class="section grid2">
+        <div class="field">
           <label>דרגה לפני</label>
           <select id="rankBefore"></select>
         </div>
 
-        <div>
+        <div class="field">
           <label>וותק (שנים)</label>
           <select id="seniority"></select>
         </div>
 
-        <div>
+        <div class="field">
           <label>דירוג לפני</label>
           <select id="ratingBefore"></select>
         </div>
 
-        <div>
+        <div class="field">
           <label>תחנה מבצעית?</label>
-          <select id="operational">
+          <div class="segmented" id="operationalSeg">
+            <button type="button" class="seg-btn active" data-value="0">
+              <i class="fa-regular fa-circle"></i><span>לא</span>
+            </button>
+            <button type="button" class="seg-btn" data-value="1">
+              <i class="fa-solid fa-bolt"></i><span>כן</span>
+            </button>
+          </div>
+          <!-- תאימות לקוד -->
+          <select id="operational" style="display:none">
             <option value="0">לא</option>
             <option value="1">כן</option>
           </select>
         </div>
 
-        <div>
+        <div class="field">
           <label>מינוי אחרי קק״ק</label>
           <select id="appointment">
             <option value="">בלי מינוי (רק אחרי קק״ק)</option>
@@ -78,18 +115,24 @@
           </select>
         </div>
 
-        <div>
+        <div class="field">
           <label>דירוג קצין (לבחירה)</label>
           <select id="officerRating" disabled></select>
         </div>
+      </div>
 
-        <div style="display:flex; align-items:end;">
-          <button class="btn" id="calcBtn" disabled>חשב שכר</button>
-        </div>
+      <div class="actions">
+        <button class="btn-primary" id="calcBtn" disabled>
+          <i class="fa-solid fa-equals"></i> חשב שכר
+        </button>
+        <button class="btn-ghost" id="resetBtn" type="button">
+          <i class="fa-solid fa-rotate-left"></i> איפוס
+        </button>
       </div>
 
       <div class="results" id="results"></div>
     </div>
+
   </div>
 
   <script src="./data.js"></script>
