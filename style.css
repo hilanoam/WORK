@@ -7,7 +7,7 @@
   --text:#0f172a;
   --muted:#475569;
 
-  --accent:#335cce;   /* כחול שירות */
+  --accent:#1d4ed8;   /* כחול שירות */
   --accent2:#2563eb;
 
   --good:#16a34a;
@@ -199,7 +199,7 @@ select:focus, input:focus, textarea:focus{
 }
 
 .seg-btn.active{
-  background: rgba(21, 38, 87, 0.1);
+  background: rgba(29,78,216,.10);
   border-color: rgba(29,78,216,.55);
   color: var(--accent);
 }
@@ -422,3 +422,20 @@ select:focus, input:focus, textarea:focus{
 .copy-btn:hover{
   border-color: rgba(29,78,216,.35);
 }
+
+.export-area{
+  margin-top: 14px;
+  display:flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: stretch;
+}
+
+.result-banner{
+  width: 100%;
+  height: auto;
+  border-radius: 14px;
+  border: 1px solid var(--stroke);
+  display:block;
+}
+
