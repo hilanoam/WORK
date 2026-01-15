@@ -197,6 +197,89 @@ function renderResults(beforeRow, afterRow, appointRow) {
   `;
 }
 
+function exportResultToFile() {
+  // לוקח את ה-HTML של התוצאה
+  const resultHTML = els.results?.innerHTML || "";
+
+  // אוספים ערכים שנבחרו
+  const fields = [
+    ["אוכלוסייה", document.querySelector('#population .seg-btn.active')?.dataset?.value || ""],
+    ["רמת פעילות", els.activity?.value || ""],
+    ["מקצוע", els.profession?.value || ""],
+    ["קבוצת תמריץ", els.incentiveGroup?.value || ""],
+    ["דרגה לפני", els.rankBefore?.value || ""],
+    ["וותק (שנים)", els.seniority?.value || ""],
+    ["דירוג לפני", els.ratingBefore?.value || ""],
+    ["תחנה מבצעית", els.operational?.value === "1" ? "כן" : "לא"],
+    ["מינוי אחרי קק\"צ", els.appointment?.value || "בלי מינוי"],
+    ["דירוג קצין", els.officerRating?.value || ""],
+  ].filter(([k, v]) => v); // מסיר ריקים
+
+  const rows = fields
+    .map(([k, v]) => `<tr><td class="k">${k}</td><td class="v">${v}</td></tr>`)
+    .join("");
+
+  const now = new Date();
+  const dateStr = now.toLocaleString("he-IL");
+
+  // תבנית קבועה (HTML להדפסה/שליחה)
+  const doc = `<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>תוצאות מחשבון שכר</title>
+<style>
+  body{ font-family: Arial, sans-serif; margin: 24px; color:#0f172a; }
+  .paper{ max-width: 820px; margin: 0 auto; border:1px solid #e6eaf2; border-radius: 16px; overflow:hidden; }
+  .banner{ width:100%; display:block; }
+  .content{ padding: 18px; }
+  h1{ margin: 0 0 8px; font-size: 20px; }
+  .meta{ color:#475569; font-size: 12px; margin-bottom: 14px; }
+  table{ width:100%; border-collapse: collapse; margin: 10px 0 16px; }
+  td{ border-bottom:1px solid #e6eaf2; padding: 10px; font-size: 14px; }
+  td.k{ color:#475569; width: 38%; font-weight: 700; }
+  .result{ border:1px solid #e6eaf2; border-radius: 14px; padding: 12px; }
+  .footer{ padding: 12px 18px; font-size: 12px; color:#475569; border-top:1px solid #e6eaf2; }
+  @media print{
+    body{ margin:0; }
+    .paper{ border:0; border-radius:0; }
+  }
+</style>
+</head>
+<body>
+  <div class="paper">
+    <img class="banner" src="./header.png" alt="כותרת"/>
+    <div class="content">
+      <h1>תוצאות מחשבון שכר</h1>
+      <div class="meta">נוצר בתאריך: ${dateStr}</div>
+
+      <table>
+        ${rows}
+      </table>
+
+      <div class="result">
+        ${resultHTML || "<div>לא נמצאה תוצאה לייצוא.</div>"}
+      </div>
+    </div>
+    <div class="footer">המסמך הופק אוטומטית ממחשבון השכר</div>
+  </div>
+</body>
+</html>`;
+
+  const blob = new Blob([doc], { type: "text/html;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `salary-result-${now.toISOString().slice(0,10)}.html`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  setTimeout(() => URL.revokeObjectURL(url), 1500);
+}
+
 
 function refreshOfficerRatings() {
   const ap = els.appointment.value;
@@ -309,6 +392,9 @@ function attachListeners() {
       refreshCalcEnabled();
     });
   });
+  if (els.exportBtn) {
+    els.exportBtn.addEventListener("click", exportResultToFile);
+  }
 
 }
 

@@ -438,3 +438,18 @@ select:focus, input:focus, textarea:focus{
   border: 1px solid var(--stroke);
   display:block;
 }
+.export-area{
+  margin-top: 14px;
+  display:flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: stretch;
+}
+
+.result-banner{
+  width: 100%;
+  height: auto;
+  border-radius: 14px;
+  border: 1px solid var(--stroke);
+  display:block;
+}
