@@ -266,7 +266,7 @@ function attachListeners() {
     const afterRow = findOne(baseRows, 'אחרי קק"צ', op);
 
     if (!beforeRow) return showWarning("חסר נתון לשלב 'לפני' עבור הבחירות שלך.");
-    if (!afterRow) return showWarning('חסר נתון לשלב "אחרי קק״ק" עבור הבחירות שלך.');
+    if (!afterRow) return showWarning('חסר נתון לשלב "אחרי קק"צ" עבור הבחירות שלך.');
 
     const ap = els.appointment.value;
     let appointRow = null;
