@@ -453,3 +453,35 @@ select:focus, input:focus, textarea:focus{
   border: 1px solid var(--stroke);
   display:block;
 }
+
+/* מיכל הלוגואים */
+.corner-logos {
+  position: relative;
+}
+
+/* לוגו כללי */
+.corner-logo {
+  position: absolute;
+  top: 12px;
+  width: 64px;
+  height: auto;
+  opacity: 0.95;
+  z-index: 5;
+}
+
+/* שמאל */
+.corner-logo.left {
+  left: 12px;
+}
+
+/* ימין */
+.corner-logo.right {
+  right: 12px;
+}
+
+/* רספונסיבי */
+@media (max-width: 480px) {
+  .corner-logo {
+    width: 48px;
+  }
+}
