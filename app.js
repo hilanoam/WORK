@@ -29,7 +29,7 @@ const moneyILS = (n) =>
 
 const uniq = (arr) => [...new Set(arr)];
 
-function setOptions(selectEl, values, placeholder = "בחרי...") {
+function setOptions(selectEl, values, placeholder = "בחר...") {
   selectEl.innerHTML = "";
   const p = document.createElement("option");
   p.value = "";
@@ -200,7 +200,7 @@ function exportResultToFile() {
   // אם אין תוצאה בכלל – לא לייצא
   const hasResult = els.results && els.results.textContent.trim().length > 0;
   if (!hasResult) {
-    showWarning("אין תוצאה לייצוא. קודם חשבי שכר ואז ייצאי.");
+    showWarning("אין תוצאה לייצוא. קודם חשב שכר ואז ייצא.");
     return;
   }
 
@@ -263,7 +263,7 @@ function exportResultToFile() {
 
   const w = window.open("", "_blank");
   if (!w) {
-    showWarning("הדפדפן חסם חלון קופץ. תאפשרי Pop-ups לאתר ואז נסי שוב.");
+    showWarning("הדפדפן חסם חלון קופץ. אפשר Pop-ups לאתר ואז נסה שוב.");
     return;
   }
 
@@ -274,7 +274,7 @@ function exportResultToFile() {
   // חשוב: לחכות שהתמונה תיטען ואז להדפיס
   w.onload = () => {
     w.focus();
-    w.print(); // כאן בוחרים “Save as PDF”
+    w.print(); 
   };
 }
 
@@ -285,7 +285,7 @@ function refreshOfficerRatings() {
   els.officerRating.disabled = !ap;
 
   if (!ap) {
-    setOptions(els.officerRating, [], "בחרי דירוג קצין...");
+    setOptions(els.officerRating, [], "בחר דירוג קצין...");
     return;
   }
 
@@ -297,7 +297,7 @@ function refreshOfficerRatings() {
       .filter(Boolean)
   ).sort((a, b) => a.localeCompare(b, "he"));
 
-  setOptions(els.officerRating, ratings, "בחרי דירוג קצין...");
+  setOptions(els.officerRating, ratings, "בחר דירוג קצין...");
 }
 
 function refreshCalcEnabled() {
@@ -339,7 +339,7 @@ function attachListeners() {
 
     const baseRows = filterBase();
     if (!baseRows.length) {
-      showWarning("לא נמצאו נתונים עבור הבחירות האלה. בדקי רמת פעילות/דרגה/וותק/דירוג.");
+      showWarning("לא נמצאו נתונים עבור הבחירות האלה. בדוק רמת פעילות/דרגה/וותק/דירוג.");
       return;
     }
 
@@ -348,7 +348,7 @@ function attachListeners() {
     const afterRow = findOne(baseRows, 'אחרי קק"צ', op);
 
     if (!beforeRow) return showWarning("חסר נתון לשלב 'לפני' עבור הבחירות שלך.");
-    if (!afterRow) return showWarning('חסר נתון לשלב "אחרי קק״ק" עבור הבחירות שלך.');
+    if (!afterRow) return showWarning('חסר נתון לשלב "אחרי קק"צ" עבור הבחירות שלך.');
 
     const ap = els.appointment.value;
     let appointRow = null;
@@ -400,7 +400,7 @@ function attachListeners() {
 function init() {
   if (!window.SALARY_DATA) {
     els.results.innerHTML =
-      `<div class="warn">⚠️ לא נמצא window.SALARY_DATA. ודאי ש-data.js נטען לפני app.js.</div>`;
+      `<div class="warn">⚠️ לא נמצא window.SALARY_DATA. ודא ש-data.js נטען לפני app.js.</div>`;
     return;
   }
 
@@ -426,7 +426,7 @@ function init() {
   if (els.incentiveGroup) {
     const groups = uniq(DATA.map(r => normalize(r["קבוצת תמריץ"])).filter(Boolean))
       .sort((a,b) => a.localeCompare(b,"he"));
-    setOptions(els.incentiveGroup, groups, "בחרי קבוצת תמריץ...");
+    setOptions(els.incentiveGroup, groups, "בחר קבוצת תמריץ...");
   }
 
 
@@ -434,8 +434,8 @@ function init() {
   const ranksBefore = uniq(DATA.map((r) => r["דרגה לפני"]).filter(Boolean)).sort((a, b) => a.localeCompare(b, "he"));
 
   // הסלקטים החבויים/רגילים (לוגיקה)
-  setOptions(els.activity, activities, "בחרי רמת פעילות...");
-  setOptions(els.rankBefore, ranksBefore, "בחרי דרגה...");
+  setOptions(els.activity, activities, "בחר רמת פעילות...");
+  setOptions(els.rankBefore, ranksBefore, "בחר דרגה...");
 
   // UI כרטיסים
   renderActivityCards(activities);
@@ -465,8 +465,8 @@ function init() {
     const ratingsBefore = uniq(subset.map((r) => r["דירוג_לפני"]).filter(Boolean))
       .sort((a, b) => a.localeCompare(b, "he"));
 
-    setOptions(els.seniority, seniorities, "בחרי ותק...");
-    setOptions(els.ratingBefore, ratingsBefore, "בחרי דירוג...");
+    setOptions(els.seniority, seniorities, "בחר ותק...");
+    setOptions(els.ratingBefore, ratingsBefore, "בחר דירוג...");
 
     refreshOfficerRatings();
     refreshCalcEnabled();
