@@ -18,7 +18,7 @@ const els = {
 
   profession: document.getElementById("profession"),
   incentiveGroup: document.getElementById("incentiveGroup"),
-
+  exportBtn: document.getElementById("exportBtn"),
 };
 
 let DATA = [];
@@ -64,9 +64,8 @@ function wireSegment(containerEl, hiddenSelectEl) {
 function iconForActivity(name) {
   const t = normalize(name);
   if (t.includes("א'")) return "fa-flag";
-  if (t.includes("ב'")) return "fa-bolt";
-  if (t.includes("ג'")) return "fa-tower-observation";
-  if (t.includes("ד'")) return "fa-shield";
+  if (t.includes("א'+")) return "fa-flag";
+  if (t.includes("ב'")) return "fa-flag";
   return "fa-layer-group";
 }
 
@@ -198,12 +197,15 @@ function renderResults(beforeRow, afterRow, appointRow) {
 }
 
 function exportResultToFile() {
-  // לוקח את ה-HTML של התוצאה
-  const resultHTML = els.results?.innerHTML || "";
+  // אם אין תוצאה בכלל – לא לייצא
+  const hasResult = els.results && els.results.textContent.trim().length > 0;
+  if (!hasResult) {
+    showWarning("אין תוצאה לייצוא. קודם חשבי שכר ואז ייצאי.");
+    return;
+  }
 
   // אוספים ערכים שנבחרו
   const fields = [
-    ["אוכלוסייה", document.querySelector('#population .seg-btn.active')?.dataset?.value || ""],
     ["רמת פעילות", els.activity?.value || ""],
     ["מקצוע", els.profession?.value || ""],
     ["קבוצת תמריץ", els.incentiveGroup?.value || ""],
@@ -213,7 +215,7 @@ function exportResultToFile() {
     ["תחנה מבצעית", els.operational?.value === "1" ? "כן" : "לא"],
     ["מינוי אחרי קק\"צ", els.appointment?.value || "בלי מינוי"],
     ["דירוג קצין", els.officerRating?.value || ""],
-  ].filter(([k, v]) => v); // מסיר ריקים
+  ].filter(([_, v]) => v);
 
   const rows = fields
     .map(([k, v]) => `<tr><td class="k">${k}</td><td class="v">${v}</td></tr>`)
@@ -222,7 +224,7 @@ function exportResultToFile() {
   const now = new Date();
   const dateStr = now.toLocaleString("he-IL");
 
-  // תבנית קבועה (HTML להדפסה/שליחה)
+  // דף להדפסה (PDF דרך Print)
   const doc = `<!doctype html>
 <html lang="he" dir="rtl">
 <head>
@@ -240,7 +242,6 @@ function exportResultToFile() {
   td{ border-bottom:1px solid #e6eaf2; padding: 10px; font-size: 14px; }
   td.k{ color:#475569; width: 38%; font-weight: 700; }
   .result{ border:1px solid #e6eaf2; border-radius: 14px; padding: 12px; }
-  .footer{ padding: 12px 18px; font-size: 12px; color:#475569; border-top:1px solid #e6eaf2; }
   @media print{
     body{ margin:0; }
     .paper{ border:0; border-radius:0; }
@@ -253,32 +254,30 @@ function exportResultToFile() {
     <div class="content">
       <h1>תוצאות מחשבון שכר</h1>
       <div class="meta">נוצר בתאריך: ${dateStr}</div>
-
-      <table>
-        ${rows}
-      </table>
-
-      <div class="result">
-        ${resultHTML || "<div>לא נמצאה תוצאה לייצוא.</div>"}
-      </div>
+      <table>${rows}</table>
+      <div class="result">${els.results.innerHTML}</div>
     </div>
-    <div class="footer">המסמך הופק אוטומטית ממחשבון השכר</div>
   </div>
 </body>
 </html>`;
 
-  const blob = new Blob([doc], { type: "text/html;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
+  const w = window.open("", "_blank");
+  if (!w) {
+    showWarning("הדפדפן חסם חלון קופץ. תאפשרי Pop-ups לאתר ואז נסי שוב.");
+    return;
+  }
 
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `salary-result-${now.toISOString().slice(0,10)}.html`;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
+  w.document.open();
+  w.document.write(doc);
+  w.document.close();
 
-  setTimeout(() => URL.revokeObjectURL(url), 1500);
+  // חשוב: לחכות שהתמונה תיטען ואז להדפיס
+  w.onload = () => {
+    w.focus();
+    w.print(); // כאן בוחרים “Save as PDF”
+  };
 }
+
 
 
 function refreshOfficerRatings() {
